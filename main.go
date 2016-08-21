@@ -61,8 +61,7 @@ func main() {
 		fmt.Printf("[INFO] Processing notifications\n")
 
 		page := 1
-		perPage := 20
-		if err := processNotifications(client, page, perPage); err != nil {
+		if err := processNotifications(client, page); err != nil {
 			fmt.Printf("[ERROR] %s\n", err)
 			os.Exit(2)
 		}
@@ -73,7 +72,7 @@ func main() {
 	}
 }
 
-func processNotifications(client *github.Client, page, perPage int) error {
+func processNotifications(client *github.Client, page int) error {
 	listOpts := &github.NotificationListOptions{
 		All:   true,
 		Since: lastChecked,
@@ -102,7 +101,7 @@ func processNotifications(client *github.Client, page, perPage int) error {
 		return nil
 	}
 	page = resp.NextPage
-	return processNotifications(client, page, perPage)
+	return processNotifications(client, page)
 }
 
 func checkPullRequest(client *github.Client, notification *github.Notification) error {
